@@ -25,7 +25,7 @@ public class oscProcess : MonoBehaviour
         if ( unlock.isUnlocked() ) {
         var oscMessage = new OSCMessage("/lumiere"); 
         oscMessage.AddValue( OSCValue.Int(1) ); // Ajoute l’entier 1
-        oscTransmitter.Send( oscMessage ) // Envoyer le message 
+        oscTransmitter.Send( oscMessage ); // Envoyer le message 
         } else {
         var oscMessage = new OSCMessage("/lumiere"); 
         oscMessage.AddValue( OSCValue.Int(0) ); // Ajoute l’entier 0
