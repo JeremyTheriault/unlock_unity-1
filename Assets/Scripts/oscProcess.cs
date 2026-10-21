@@ -29,7 +29,7 @@ public class oscProcess : MonoBehaviour
         } else {
         var oscMessage = new OSCMessage("/lumiere"); 
         oscMessage.AddValue( OSCValue.Int(0) ); // Ajoute l’entier 0
-        oscTransmitter.Send( oscMessage ) // Envoyer le message 
+        oscTransmitter.Send( oscMessage ); // Envoyer le message 
         }
 
     }
