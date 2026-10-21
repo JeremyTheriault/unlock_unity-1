@@ -42,7 +42,7 @@ public class OscProcess : MonoBehaviour
 
 
 
-    void TraiterMessageTourner(OSCMessage message)
+    void TraiterMessageValider(OSCMessage message)
     {
         // Validez qu’il y a bien le nombre attendu d’arguments (1 dans l’exemple) :
         if (message.Values.Count != 1)
@@ -77,7 +77,7 @@ public class OscProcess : MonoBehaviour
 
     }
 
-    void TraiterMessageValider(OSCMessage message)
+    void TraiterMessageTourner(OSCMessage message)
     {
         // Validez qu’il y a bien le nombre attendu d’arguments (1 dans l’exemple) :
         if (message.Values.Count != 1)
