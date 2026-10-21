@@ -3,46 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using extOSC;
 
-public class oscProcess : MonoBehaviour
+public class OscProcess : MonoBehaviour
 {
 
+    public int potInMin = 0;
+    public int potInMax = 1023;
+    public float potOutMin = 0.0f;
+    public float potOutMax = 1.0f;
+
+
     public OSCReceiver oscReceiver;
-
     public OSCTransmitter oscTransmitter;
-
     public Unlock unlock;
-    
-    public int potInMin = 0; // Valeur minimale du potentiomètre
-
-    public int potInMax = 1023; // Valeur maximale du potentiomètre
-
-    public float potOutMin = -4.4f; // Valeur minimale de sortie (position de la palette)
-
-    public float potOutMax = 4.4f; // Valeur maximale de sortie (position
 
     // Start is called before the first frame update
     void Start()
     {
-
-        oscReceiver.Bind("/tourner", SetAngle);
-        oscReceiver.Bind("/valider", CheckSolution);
+        oscReceiver.Bind("/tourner", TraiterMessageTourner);
+        oscReceiver.Bind("/valider", TraiterMessageValider);
     }
 
     // Update is called once per frame
     void Update()
     {
-    if ( unlock.isUnlocked() ) {
-        var oscMessage = new OSCMessage("/lumiere"); 
-        oscMessage.AddValue( OSCValue.Int(1) ); // Ajoute l’entier 1
-        oscTransmitter.Send( oscMessage ); // Envoyer le message 
-        } else {
-        var oscMessage = new OSCMessage("/lumiere"); 
-        oscMessage.AddValue( OSCValue.Int(0) ); // Ajoute l’entier 0
-        oscTransmitter.Send( oscMessage ); // Envoyer le message 
+        if (unlock.isUnlocked())
+        {
+            var oscMessage = new OSCMessage("/lumiere");
+            oscMessage.AddValue(OSCValue.Int(1)); // Ajoute l’entier 1
+            oscTransmitter.Send(oscMessage); // Envoyer le message 
+        }
+        else
+        {
+            var oscMessage = new OSCMessage("/lumiere");
+            oscMessage.AddValue(OSCValue.Int(0)); // Ajoute l’entier 0
+            oscTransmitter.Send(oscMessage); // Envoyer le message 
         }
     }
 
-     void CheckSolution(OSCMessage message)
+
+
+    void TraiterMessageTourner(OSCMessage message)
     {
         // Validez qu’il y a bien le nombre attendu d’arguments (1 dans l’exemple) :
         if (message.Values.Count != 1)
@@ -77,7 +77,7 @@ public class oscProcess : MonoBehaviour
 
     }
 
-    void SetAngle(OSCMessage message)
+    void TraiterMessageValider(OSCMessage message)
     {
         // Validez qu’il y a bien le nombre attendu d’arguments (1 dans l’exemple) :
         if (message.Values.Count != 1)
@@ -97,16 +97,15 @@ public class oscProcess : MonoBehaviour
         int valeur = message.Values[0].IntValue;
 
         // Deboguer
-         Debug.Log("Reçu : " + message.Address + " " + valeur);
+        Debug.Log("Reçu : " + message.Address + " " + valeur);
 
         // TRAITER LA VALEUR ICI !
 
         float ajuste = (((float)valeur - potInMin) / (potInMax - potInMin) * (potOutMax - potOutMin) + potOutMin);
 
         // AJOUTER À LA LIGNE SUIVANTE LE CODE POUR APPLIQUER LA VARIABLE ajuste AU DÉPLACEMENT DE LA PALETTE ICI !
-        
-        Slider.SetPosition(ajuste);
+        unlock.SetAngle(ajuste);
 
     }
-
 }
+ 
