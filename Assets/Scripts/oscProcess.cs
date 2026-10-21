@@ -7,12 +7,19 @@ public class oscProcess : MonoBehaviour
 {
 
     public OSCReceiver oscReceiver;
+
     public OSCTransmitter oscTransmitter;
+
     public Unlock unlock;
+    
     public int potInMin = 0; // Valeur minimale du potentiomètre
+
     public int potInMax = 1023; // Valeur maximale du potentiomètre
-    public float potOutMin = 0; // Valeur minimale de sortie (position de la palette)
-    public float potOutMax = 0; // Valeur maximale de sortie (position
+
+    public float potOutMin = -4.4f; // Valeur minimale de sortie (position de la palette)
+
+    public float potOutMax = 4.4f; // Valeur maximale de sortie (position
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,7 +67,7 @@ public class oscProcess : MonoBehaviour
         // TRAITER LA VALEUR ICI !
         if (valeur == 1)
         {
-            gameManager.ThrowBall();
+            unlock.CheckSolution();
         }
         else
         {
@@ -97,7 +104,8 @@ public class oscProcess : MonoBehaviour
         float ajuste = (((float)valeur - potInMin) / (potInMax - potInMin) * (potOutMax - potOutMin) + potOutMin);
 
         // AJOUTER À LA LIGNE SUIVANTE LE CODE POUR APPLIQUER LA VARIABLE ajuste AU DÉPLACEMENT DE LA PALETTE ICI !
-        playerPaddle.SetPosition(ajuste);
+        
+        Slider.SetPosition(ajuste);
 
     }
 
